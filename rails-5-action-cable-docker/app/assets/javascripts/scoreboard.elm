@@ -30,9 +30,9 @@ type Action =
 
 update action model =
   case action of
-    ScoreReceived encrypted ->
+    ScoreReceived newScore ->
       let
-        scores = encrypted
+        scores = newScore
                   |> flip (::) model.scores
                   |> List.sort
                   |> List.reverse
