@@ -19,10 +19,10 @@ type alias Model =
 init =
   Model [0]
 
-port encryptionCompleted : Signal Int
+port incomingScore : Signal Int
 
-incomingScore =
-  Signal.map ScoreReceived encryptionCompleted
+newScore =
+  Signal.map ScoreReceived incomingScore
 
 type Action =
     ScoreReceived Int
@@ -66,7 +66,7 @@ app =
     init = (init, Effects.none),
     view = view,
     update = update,
-    inputs = [incomingScore]
+    inputs = [newScore]
   }
 
 main = app.html

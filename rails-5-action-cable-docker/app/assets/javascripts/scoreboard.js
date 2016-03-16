@@ -10650,21 +10650,21 @@ Elm.Scoreboard.make = function (_elm) {
    });
    var Noop = {ctor: "Noop"};
    var ScoreReceived = function (a) {    return {ctor: "ScoreReceived",_0: a};};
-   var encryptionCompleted = Elm.Native.Port.make(_elm).inboundSignal("encryptionCompleted",
+   var incomingScore = Elm.Native.Port.make(_elm).inboundSignal("incomingScore",
    "Int",
    function (v) {
       return typeof v === "number" && isFinite(v) && Math.floor(v) === v ? v : _U.badPort("an integer",v);
    });
-   var incomingScore = A2($Signal.map,ScoreReceived,encryptionCompleted);
+   var newScore = A2($Signal.map,ScoreReceived,incomingScore);
    var Model = function (a) {    return {scores: a};};
    var init = Model(_U.list([0]));
-   var app = $StartApp.start({init: {ctor: "_Tuple2",_0: init,_1: $Effects.none},view: view,update: update,inputs: _U.list([incomingScore])});
+   var app = $StartApp.start({init: {ctor: "_Tuple2",_0: init,_1: $Effects.none},view: view,update: update,inputs: _U.list([newScore])});
    var main = app.html;
    var tasks = Elm.Native.Task.make(_elm).performSignal("tasks",app.tasks);
    return _elm.Scoreboard.values = {_op: _op
                                    ,Model: Model
                                    ,init: init
-                                   ,incomingScore: incomingScore
+                                   ,newScore: newScore
                                    ,ScoreReceived: ScoreReceived
                                    ,Noop: Noop
                                    ,update: update

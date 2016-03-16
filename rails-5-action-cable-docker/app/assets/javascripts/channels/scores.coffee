@@ -8,4 +8,4 @@ App.scores = App.cable.subscriptions.create "ScoresChannel",
     received: (data) ->
         console.log data
         score = data.message
-        elmApp.ports.encryptionCompleted.send(score)
+        elmApp.ports.incomingScore.send(score)
