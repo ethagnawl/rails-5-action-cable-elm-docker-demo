@@ -50,23 +50,18 @@ Rails.application.configure do
   config.log_level = :debug
 
   # Prepend all log lines with the following tags.
-  config.log_tags = [ :request_id ]
+  # config.log_tags = [ :subdomain, :request_id ]
 
   # Use a different logger for distributed setups.
   # require 'syslog/logger'
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new 'app-name')
-
-  if ENV["RAILS_LOG_TO_STDOUT"].present?
-    config.logger = ActiveSupport::TaggedLogging.new(Logger.new(STDOUT))
-  end
 
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
 
   # Use a real queuing backend for Active Job (and separate queues per environment)
   # config.active_job.queue_adapter     = :resque
-  # config.active_job.queue_name_prefix = "rails-5-action-cable-docker_#{Rails.env}"
-  config.action_mailer.perform_caching = false
+  # config.active_job.queue_name_prefix = "chat_#{Rails.env}"
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
