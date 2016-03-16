@@ -38,7 +38,7 @@ update action model =
                   |> List.reverse
                   |> List.take 10
       in
-        ({ model | scores = scores}
+        ({ model | scores = scores }
           , Effects.none
         )
     Noop ->
