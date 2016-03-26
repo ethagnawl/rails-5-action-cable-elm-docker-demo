@@ -54,13 +54,19 @@ $(function () {
     window.elmApp = Elm.embed(Elm.ColorPicker, div, generateGameObject());
     window.elmApp.ports.options.send(generateGameObject().options);
     window.elmApp.ports.requestNewGameObject.subscribe(function (gameObject) {
-        App.scores.simulate({score: gameObject.score})
+        App.scores.simulate({
+            initials: gameObject.initials,
+            score: gameObject.score
+        })
         window.elmApp.ports.options.send(generateGameObject().options);
     });
 
     var scoreboard = document.getElementById('scoreboard');
     window.scoreboardApp = Elm.embed(Elm.Scoreboard, scoreboard, {
-        incomingScore: 0
+        incomingScore: {
+            initials: "PRD",
+            score: 0
+        }
     });
 });
 </script>

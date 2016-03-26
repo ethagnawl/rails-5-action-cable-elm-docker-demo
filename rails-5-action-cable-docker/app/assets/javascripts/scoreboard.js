@@ -10640,9 +10640,7 @@ Elm.Scoreboard.make = function (_elm) {
    var update = F2(function (action,model) {
       var _p0 = action;
       if (_p0.ctor === "ScoreReceived") {
-            var scores = A2($List.take,
-            10,
-            $List.reverse($List.sort(A3($Basics.flip,F2(function (x,y) {    return A2($List._op["::"],x,y);}),model.scores,_p0._0))));
+            var scores = A3($Basics.flip,F2(function (x,y) {    return A2($List._op["::"],x,y);}),model.scores,_p0._0);
             return {ctor: "_Tuple2",_0: _U.update(model,{scores: scores}),_1: $Effects.none};
          } else {
             return {ctor: "_Tuple2",_0: model,_1: $Effects.none};
@@ -10651,17 +10649,23 @@ Elm.Scoreboard.make = function (_elm) {
    var Noop = {ctor: "Noop"};
    var ScoreReceived = function (a) {    return {ctor: "ScoreReceived",_0: a};};
    var incomingScore = Elm.Native.Port.make(_elm).inboundSignal("incomingScore",
-   "Int",
+   "Scoreboard.Score",
    function (v) {
-      return typeof v === "number" && isFinite(v) && Math.floor(v) === v ? v : _U.badPort("an integer",v);
+      return typeof v === "object" && "initials" in v && "score" in v ? {_: {}
+                                                                        ,initials: typeof v.initials === "string" || typeof v.initials === "object" && v.initials instanceof String ? v.initials : _U.badPort("a string",
+                                                                        v.initials)
+                                                                        ,score: typeof v.score === "number" && isFinite(v.score) && Math.floor(v.score) === v.score ? v.score : _U.badPort("an integer",
+                                                                        v.score)} : _U.badPort("an object with fields `initials`, `score`",v);
    });
    var newScore = A2($Signal.map,ScoreReceived,incomingScore);
    var Model = function (a) {    return {scores: a};};
-   var init = Model(_U.list([0]));
+   var init = Model(_U.list([{initials: "PRD",score: 0}]));
    var app = $StartApp.start({init: {ctor: "_Tuple2",_0: init,_1: $Effects.none},view: view,update: update,inputs: _U.list([newScore])});
    var main = app.html;
+   var Score = F2(function (a,b) {    return {initials: a,score: b};});
    var tasks = Elm.Native.Task.make(_elm).performSignal("tasks",app.tasks);
    return _elm.Scoreboard.values = {_op: _op
+                                   ,Score: Score
                                    ,Model: Model
                                    ,init: init
                                    ,newScore: newScore

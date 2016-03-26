@@ -11,21 +11,26 @@ port tasks : Signal (Task.Task Never ())
 port tasks =
   app.tasks
 
+type alias Score = {
+  initials: String,
+  score: Int
+}
+
 type alias Model =
   {
-    scores : List Int
+    scores : List Score
   }
 
 init =
-  Model [0]
+  Model [{initials = "PRD", score = 0}]
 
-port incomingScore : Signal Int
+port incomingScore : Signal Score
 
 newScore =
   Signal.map ScoreReceived incomingScore
 
 type Action =
-    ScoreReceived Int
+    ScoreReceived Score
   | Noop
 
 update action model =
@@ -34,9 +39,9 @@ update action model =
       let
         scores = newScore
                   |> flip (::) model.scores
-                  |> List.sort
-                  |> List.reverse
-                  |> List.take 10
+                  -- |> List.sort
+                  -- |> List.reverse
+                  -- |> List.take 10
       in
         ({ model | scores = scores }
           , Effects.none
