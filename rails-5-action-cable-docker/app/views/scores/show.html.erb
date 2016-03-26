@@ -1,8 +1,65 @@
+<style>
+* {
+    box-sizing: border-box;
+}
+.prompt {
+    text-align: center;
+}
+.options {
+    margin: 2vw 0;
+}
+.option {
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s ease-out;
+}
+.option:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+</style>
+
+<div id="scoreboard"></div>
 <div id="root"></div>
 <script>
 $(function () {
+    function generateGameObject() {
+
+        var min = 0;
+        var max = 255;
+        function randomNumber(max) {
+            return Math.floor(Math.random() * max);
+        }
+        var options = [0, 0, 0].map(function () {
+            var red = randomNumber(max);
+            var green = randomNumber(max);
+            var blue = randomNumber(max);
+            return "rgb(" + red + ", " + green + ", " + blue + ")";
+        });
+        var answer = options[randomNumber(3)];
+        var data = {
+            options: {
+                initials: "",
+                initialsSaved: false,
+                answer: answer,
+                guess: "",
+                options: options,
+                score: 99999
+            }
+        };
+
+        return data;
+
+    }
     var div = document.getElementById('root');
-    window.elmApp = Elm.embed(Elm.Scoreboard, div, {
+    window.elmApp = Elm.embed(Elm.ColorPicker, div, generateGameObject());
+    window.elmApp.ports.options.send(generateGameObject().options);
+    window.elmApp.ports.requestNewGameObject.subscribe(function (gameObject) {
+        App.scores.simulate({score: gameObject.score})
+        window.elmApp.ports.options.send(generateGameObject().options);
+    });
+
+    var scoreboard = document.getElementById('scoreboard');
+    window.scoreboardApp = Elm.embed(Elm.Scoreboard, scoreboard, {
         incomingScore: 0
     });
 });

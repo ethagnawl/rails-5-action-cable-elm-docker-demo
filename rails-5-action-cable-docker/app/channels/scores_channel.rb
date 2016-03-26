@@ -7,7 +7,8 @@ class ScoresChannel < ApplicationCable::Channel
     # Any cleanup needed when channel is unsubscribed
   end
 
-  # def simulate(*data)
-  #   TestJob.perform_now 'hey test'
-  # end
+  def simulate(message)
+    ActionCable.server.broadcast 'scores_channel', message: message
+    # TestJob.perform_now data
+  end
 end
