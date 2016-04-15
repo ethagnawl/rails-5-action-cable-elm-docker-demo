@@ -177,6 +177,7 @@ DEPENDENCIES
   jquery-rails
   puma
   rails (>= 5.0.0.beta1, < 5.1)
+  redis
   sqlite3
   turbolinks
   tzinfo-data
