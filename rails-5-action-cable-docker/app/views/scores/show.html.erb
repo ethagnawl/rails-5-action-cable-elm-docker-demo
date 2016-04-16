@@ -63,10 +63,10 @@ $(function () {
 
     var scoreboard = document.getElementById('scoreboard');
     window.scoreboardApp = Elm.embed(Elm.Scoreboard, scoreboard, {
-        incomingScore: {
+        incomingScores: [{
             initials: "PRD",
             score: 0
-        }
+        }]
     });
 });
 </script>

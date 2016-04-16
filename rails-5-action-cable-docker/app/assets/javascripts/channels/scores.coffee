@@ -6,11 +6,8 @@ App.scores = App.cable.subscriptions.create "ScoresChannel",
         # Called when the subscription has been terminated by the server
 
     received: (data) ->
-        score = data.message
-        scoreboardApp.ports.incomingScore.send({
-            initials: data.message.initials,
-            score: data.message.score
-        })
+        scores = data.message
+        scoreboardApp.ports.incomingScores.send(scores)
 
     simulate: (gameObject) ->
         @perform 'simulate', gameObject

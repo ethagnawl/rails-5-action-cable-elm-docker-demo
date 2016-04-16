@@ -12,7 +12,13 @@ class ScoresChannel < ApplicationCable::Channel
                message['score'],
                message['initials']
 
-    scores = redis.zrevrange 'scores', 0, 10, with_scores: true
+    _scores = redis.zrevrange 'scores', 0, 10, with_scores: true
+    scores = _scores.map do |(initials, score)|
+      {
+        initials: initials,
+        score: score
+      }
+    end
 
     ActionCable.server.broadcast 'scores_channel',
                                  message: scores

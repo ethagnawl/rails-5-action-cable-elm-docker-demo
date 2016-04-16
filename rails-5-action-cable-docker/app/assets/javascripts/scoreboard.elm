@@ -16,6 +16,8 @@ type alias Score = {
   score: Int
 }
 
+type alias Scores = List Score
+
 type alias Model =
   {
     scores : List Score
@@ -24,28 +26,21 @@ type alias Model =
 init =
   Model [{initials = "PRD", score = 0}]
 
-port incomingScore : Signal Score
+port incomingScores : Signal Scores
 
 newScore =
-  Signal.map ScoreReceived incomingScore
+  Signal.map ScoresReceived incomingScores
 
 type Action =
-    ScoreReceived Score
+    ScoresReceived Scores
   | Noop
 
 update action model =
   case action of
-    ScoreReceived newScore ->
-      let
-        scores = newScore
-                  |> flip (::) model.scores
-                  -- |> List.sort
-                  -- |> List.reverse
-                  -- |> List.take 10
-      in
-        ({ model | scores = scores }
-          , Effects.none
-        )
+    ScoresReceived newScores ->
+      ({ model | scores = newScores }
+        , Effects.none
+      )
     Noop ->
       ( model, Effects.none )
 
