@@ -7,7 +7,7 @@ class ScoresChannel < ApplicationCable::Channel
 
   def simulate(message)
 
-    redis = Redis.new
+    redis = Redis.new(host: REDIS_ADDR, port: REDIS_PORT)
     redis.zadd 'scores',
                message['score'],
                message['initials']

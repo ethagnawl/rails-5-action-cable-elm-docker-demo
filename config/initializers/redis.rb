@@ -1,0 +1,5 @@
+REDIS_ADDR = ENV['REDIS_PORT_6379_TCP_ADDR']
+fail "REDIS_ADDR is required" unless REDIS_ADDR
+
+REDIS_PORT = ENV['REDIS_PORT_6379_TCP_PORT']
+fail "REDIS_PORT is required" unless REDIS_PORT
